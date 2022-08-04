@@ -1,25 +1,28 @@
+const Id = '1004513972856295575';
 
-const RPC = require('discord-rpc');
-const client = new RPC.Client({ transport: 'ipc' });
-client.on('ready', () =>
+const DiscordRPC = require("discord-rpc");
+
+DiscordRPC.register(Id)
+
+const RPC  = new DiscordRPC.Client({ transport: 'ipc' });
+
+const setActivity = {
+    details: 'Test presemce',
+    state: 'plating with RPC',
+    large_imageKey: 'escape_from_tarkov_png21',
+    large_text: "Escape From Tarkov NL/BE!",
+    // small_imageKey: '',
+    // small_textKey: 'EFT!',
+    instance: false,
+    buttons:[
+        {label: 'Join our server'},
+        {url: 'https://discord.gg/JutPDPJd72'},
+    ]}
+
+RPC.on("ready", async () =>
 {
-    client.request('SET_ACTIVITY', {
-        pid: process.pid,
-        activity: {
-            assets: {
-                large_image: 'woc', //WoC
-                small_image: 'pycord_logo', //Pycord
-                small_text: 'Pycord!',
-                large_text: "World of Coding!",
-            },
-
-            details: '11k+ CODING SERVER/REDDIT!', 
-            buttons: [
-                { label: 'Join World of Coding!', url: 'https://discord.gg/pkShK9ax2X' }, //woc (Partner of Pycord)
-                { label: 'Join r/code!', url: 'https://www.reddit.com/r/code'}, //r/code (Reddit page)
-            ]
-        }
-    });
-    console.log('started!');
+    RPC.request("SET_ACTIVITY", {pid: process.pid, activity: setActivity});
+    console.log("Done.")
 });
-client.login({ clientId: '803978215466074122' });
+
+RPC.login({ clientId: Id }) //.catch(err => console.error(err))
